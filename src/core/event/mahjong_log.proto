@@ -1,0 +1,117 @@
+syntax = "proto3";
+// A
+
+message MahjongLog {
+    // Game time
+    int32 game_time = 1;
+    // Game type
+    int32 game_type = 2;
+    // Round events
+    repeated MahjongEvent events = 3;
+}
+message MahjongEvent{
+    string type = 1;
+    oneof kind{
+        EventUN event_un = 2;
+        EventBYE event_bye = 3;
+        EventINIT event_init = 4;
+        EventDORA event_dora = 5;
+        EventTUVW event_tuvw = 6;
+        EventDEFG event_defg = 7;
+        EventN event_n = 8;
+        EventREACH event_reach = 9;
+        EventAGARI event_agari = 10;
+        EventRYUUKYOKU event_ryuukyoku = 11;
+    }
+}
+message Hand{
+    repeated int32 values = 1;
+}
+message Thrown{
+    repeated int32 values = 1;
+}
+message MeldOne{
+    string type = 1;
+    int32 from_who = 2;
+    int32 called = 3;
+    repeated int32 tiles = 4;
+}
+message Meld{
+    repeated MeldOne values = 1;
+}
+message EventUN{
+    repeated string names = 1;
+    repeated int32 dans = 2;
+    repeated double rates = 3;
+    repeated string sexes = 4;
+    int32 who = 5; // For the case reconnection
+}
+message EventBYE{
+    int32 who = 1;
+}
+message EventINIT{
+    repeated int32 total_scores = 1;
+    int32 round = 2;
+    int32 combo = 3;
+    int32 reach_stick = 4;
+    repeated int32 dora_indicators = 5;
+    int32 oya = 6;
+    repeated Hand hands = 7;
+    repeated Thrown throwns = 8;
+    repeated Meld melds = 9;
+    bool is_reinit = 10;
+}
+message EventDORA{
+    int32 dora_indicator = 1;
+}
+message EventTUVW{
+    int32 who = 1;
+    int32 tile = 2;
+}
+message EventDEFG{
+    int32 who = 1;
+    int32 tile = 2;
+    bool is_tsumo_giri = 3;
+}
+message EventN{
+    string type = 1;
+    int32 who = 2;
+    int32 from_who = 3;
+    int32 called = 4;
+    repeated int32 tiles = 5;
+}
+message EventREACH{
+    int32 who = 1;
+    int32 step = 2;
+}
+message EventAGARI{
+    int32 who = 1;
+    int32 from_who = 2;
+    int32 pao_who = 3;
+    int32 round_score = 4;
+    int32 fu = 5;
+    int32 limit = 6;
+    repeated int32 dora_indicators = 7;
+    repeated int32 uradora_indicators = 8;
+    Hand hand = 9;
+    Meld meld = 10;
+    string yaku_style = 11;
+    repeated int32 yaku_values = 12;
+    repeated int32 yaku_types = 13;
+    int32 combo = 14;
+    int32 reach_stick = 15;
+    repeated int32 round_scores = 16;
+    repeated int32 total_scores = 17;
+    repeated int32 owari_scores = 18;
+    repeated int32 owari_points = 19;
+}
+message EventRYUUKYOKU{
+    string type = 1; // one of 'nm', 'reach4', 'yao9', 'kaze4', 'ron3', 'kan4'
+    repeated Hand hands = 2;
+    int32 combo = 3;
+    int32 reach_stick = 4;
+    repeated int32 round_scores = 5;
+    repeated int32 total_scores = 6;
+    repeated int32 owari_scores = 7;
+    repeated int32 owari_points = 8;
+}
